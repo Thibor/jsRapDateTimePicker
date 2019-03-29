@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Demo</title>
+<link rel="stylesheet" href="jsRapDateTimePicker.css" />
+<link rel="stylesheet" href="index.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="jsRapDateTimePicker.js"></script>
+<script>
+
+$(document).ready(function(){
+
+$('#demo1').jsRapDateTimePicker();
+
+$('#demo2').jsRapDateTimePicker({
+	captions:['Year','Month','Day','Hour','Minute',''],
+});
+
+$('#demo3').jsRapDateTimePicker({
+	onChange:function(y,m,d,h,i,s){
+		alert(D6ToStr(y,m,d,h,i,s));
+	}
+});
+
+});
+</script>
+</head>
+<body>
+<div id="divMain">
+<div id="divGitHub">
+<div id="GitHub" onclick="location.href='https://github.com/Thibor/jsRapDateTimePicker'"></div>
+</div>
+<div id="demo1" ></div>
+<div id="demo2" ></div>
+<div id="demo3" ></div>
+</div>
+</body>
+</html>
