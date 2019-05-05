@@ -1,5 +1,4 @@
 function D6ToStr(y,m,d,h,i,s){
-m++;
 if(m < 10)m = '0' + m;
 if(d < 10)d = '0' + d;
 if(h < 10)h = '0' + h;
@@ -9,7 +8,7 @@ return y + '-' + m + '-' + d + ' ' + h + ':' + i + ':' + s;
 }
 
 function D6ToDate(y,m,d,h,i,s){
-return new Date(y,m,d,h,i,s,0);	
+return new Date(y,m - 1,d,h,i,s,0);	
 }
 
 function DateToD6(date){
@@ -19,7 +18,7 @@ let d = date.getDate();
 let h = date.getHours();
 let i = date.getMinutes();
 let s = date.getSeconds();
-return {y:y,m:m,d:d,h:h,i:i,s:s};
+return {y:y,m:m + 1,d:d,h:h,i:i,s:s};
 }
 
 function DateToStr(date){
@@ -38,7 +37,7 @@ let d = parseInt(v.substring(8,10),10);
 let h = parseInt(v.substring(11,13),10);
 let i = parseInt(v.substring(14,16),10);
 let s = parseInt(v.substring(17,19),10);
-return D6ToDate(y,m - 1,d,h,i,s);
+return D6ToDate(y,m,d,h,i,s);
 }
 
 (function($){
@@ -57,6 +56,7 @@ return this.each(function(){
 		hoursNames:[],
 		minutesNames:[],
 		secondsNames:[],
+		change:false,
 		onChange:null
 	},options);
 	let base = this;
@@ -103,7 +103,7 @@ return this.each(function(){
 		let sel = $('<select>').addClass('rdtpMonth').appendTo(td);
 		for(let n = 0;n < this.opt.monthsNames.length;n++)
 			$('<option>').text(this.opt.monthsNames[n]).appendTo(sel);
-		$('option',sel).filter(function () { return $(this).html() == base.opt.monthsNames[d6.m];}).prop( 'selected', true );
+		$('option',sel).filter(function () { return $(this).html() == base.opt.monthsNames[d6.m - 1];}).prop( 'selected', true );
 	}
 	caption = this.opt.captions[2];
 	if(caption){
@@ -142,26 +142,26 @@ return this.each(function(){
 	$('select',this).bind({
 			change:function(e){
 				d6.y = $('.rdtpYear option:selected',base).text();
-				d6.m = $('.rdtpMonth option:selected',base).index();
+				d6.m = $('.rdtpMonth option:selected',base).index() + 1;
 				d6.d = $('.rdtpDay option:selected',base).text();
 				d6.h = $('.rdtpHour option:selected',base).text();
 				d6.i = $('.rdtpMinute option:selected',base).text();
 				d6.s = $('.rdtpSecond option:selected',base).text();
-				base.SetD6(d6.y,d6.m,d6.d,d6.h,d6.i,d6.s);
-				if(base.opt.onChange)
-					base.opt.onChange.call(this,d6.y,d6.m,d6.d,d6.h,d6.i,d6.s);
+				base.SetD6(true,d6.y,d6.m,d6.d,d6.h,d6.i,d6.s);
 			}
 	});
 	
-	this.SetD6 = function(y,m,d,h,i,s){
+	this.SetD6 = function(change,y,m,d,h,i,s){
 		let dim = DaysInMonth(y,m + 1);
 		let day = $('.rdtpDay',base).empty();
 		for(let n = 1;n <= dim;n++)
 			$('<option>').text(n).appendTo(day);
 		$('option',day).filter(function () { return $(this).html() == d6.d;}).prop( 'selected', true );
+		if(base.opt.onChange && change)
+			base.opt.onChange.call(this,d6.y,d6.m,d6.d,d6.h,d6.i,d6.s);
 	}
 	
-	this.SetD6(d6.y,d6.m,d6.d,d6.h,d6.i,d6.s);
+	this.SetD6(base.opt.change,d6.y,d6.m,d6.d,d6.h,d6.i,d6.s);
 	
 })
 
