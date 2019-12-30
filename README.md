@@ -11,7 +11,7 @@ More information about this can be found in this blog <a href="https://www.jquer
 
 Option | Type | Default | Description
 ------ | ---- | ------- | -----------
-date | class | new Date() | Initializes the date and time
+date | class Date | current date and time | Initializes the date and time
 yearBefore | int | 5 | Number of visible years before the selected year
 yearAfter | int | 5 | Number of visible years after the selected year
 
