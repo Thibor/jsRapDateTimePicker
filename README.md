@@ -14,6 +14,8 @@ Option | Type | Default | Description
 date | class Date | current date and time | Initializes the date and time
 yearBefore | int | 5 | Number of visible years before the selected year
 yearAfter | int | 5 | Number of visible years after the selected year
+captions | array of strings | ['Year','Month','Day','Hour','Minute','Second'] | Names of visible time components
+change | bool | false | date initialization treated as a date change
 
 ### Events
 
